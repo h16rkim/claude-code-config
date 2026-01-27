@@ -43,7 +43,7 @@ cd "$PROJECT_DIR" && git pull
 
 1. 백업 디렉토리 생성 및 기존 설정 백업
    ```bash
-   BACKUP_DIR="$HOME/.claude/backup/$(date +%Y%m%d_%H%M%S)"
+   BACKUP_DIR="$PROJECT_DIR/backup/$(date +%Y%m%d_%H%M%S)"
    mkdir -p "$BACKUP_DIR"
    ```
 
