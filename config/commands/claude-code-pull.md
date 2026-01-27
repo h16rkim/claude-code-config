@@ -12,21 +12,23 @@ Repository의 설정을 로컬 환경에 적용합니다.
 
 ### Step 1: 프로젝트 경로 탐지
 
-1. `~/.claude/commands` 심볼릭 링크에서 프로젝트 경로를 찾습니다:
+1. `~/.claude/commands` 심볼릭 링크에서 프로젝트 경로를 찾고 자주 사용되는 경로를 변수화합니다:
    ```bash
-   CONFIG_DIR="$(dirname "$(readlink "$HOME/.claude/commands")")"
-   echo "프로젝트 경로: $CONFIG_DIR"
+   PROJECT_DIR="$(dirname "$(readlink "$HOME/.claude/commands")")"
+   CONFIG_DIR="$PROJECT_DIR/config"
+   REGISTRY_DIR="$PROJECT_DIR/registry"
+   echo "프로젝트 경로: $PROJECT_DIR"
    ```
 
 2. 프로젝트 경로가 유효한지 확인:
    ```bash
-   ls -la "$CONFIG_DIR/config/settings.json"
+   ls -la "$CONFIG_DIR/settings.json"
    ```
    파일이 없으면 "claude-code-config 프로젝트를 찾을 수 없습니다. init.sh를 먼저 실행해주세요."라고 알려주세요.
 
 3. 프로젝트 디렉토리로 이동하여 Git 상태 확인:
    ```bash
-   cd "$CONFIG_DIR" && git status
+   cd "$PROJECT_DIR" && git status
    ```
    uncommitted changes가 있으면 사용자에게 알려주세요.
 
@@ -34,7 +36,7 @@ Repository의 설정을 로컬 환경에 적용합니다.
 
 사용자에게 `git pull`을 실행할지 확인합니다:
 ```bash
-cd "$CONFIG_DIR" && git pull
+cd "$PROJECT_DIR" && git pull
 ```
 
 ### Step 3: 기존 설정 백업
@@ -72,28 +74,35 @@ cd "$CONFIG_DIR" && git pull
 
 1. 기존 심볼릭 링크 또는 파일 제거 후 새로 생성
    ```bash
-   CONFIG_DIR="$(dirname "$(readlink "$HOME/.claude/commands")")"
-
    # settings.json
    rm -f "$HOME/.claude/settings.json"
-   ln -s "$CONFIG_DIR/config/settings.json" "$HOME/.claude/settings.json"
+   ln -s "$CONFIG_DIR/settings.json" "$HOME/.claude/settings.json"
 
    # CLAUDE.md
    rm -f "$HOME/.claude/CLAUDE.md"
-   ln -s "$CONFIG_DIR/config/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
+   ln -s "$CONFIG_DIR/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 
    # commands/ (이미 심볼릭 링크로 연결되어 있음 - 확인만)
 
    # skills/
    rm -rf "$HOME/.claude/skills"
-   ln -s "$CONFIG_DIR/skills" "$HOME/.claude/skills"
+   ln -s "$PROJECT_DIR/skills" "$HOME/.claude/skills"
    ```
 
 ### Step 5: MCP 서버 동기화
 
-1. `$CONFIG_DIR/registry/mcp-servers.json` 파일을 읽어 MCP 서버 목록을 확인합니다.
+1. `$REGISTRY_DIR/mcp-servers.json` 파일을 읽어 MCP 서버 목록을 확인합니다.
 
-2. 각 서버에 대해 다음 명령을 실행합니다:
+2. **registry에 없는 서버 삭제**: 현재 설치된 MCP 서버 중 registry에 명시되지 않은 서버를 삭제합니다.
+   ```bash
+   # 현재 설치된 서버 목록 조회
+   claude mcp list
+
+   # registry에 없는 서버 삭제
+   claude mcp remove <name>
+   ```
+
+3. 각 서버에 대해 다음 명령을 실행합니다:
    ```bash
    # 기존 서버 제거 (이미 있는 경우)
    claude mcp remove <name>
@@ -102,7 +111,7 @@ cd "$CONFIG_DIR" && git pull
    claude mcp add-json --scope <scope> <name> '<config_json>'
    ```
 
-3. 예시 (fetch 서버):
+4. 예시 (fetch 서버):
    ```bash
    claude mcp remove fetch
    claude mcp add-json --scope user fetch '{"type":"stdio","command":"npx","args":["-y","@h16rkim/mcp-fetch-server@latest"],"env":{"HTTP_PROXY":"http://127.0.0.1:3128","HTTPS_PROXY":"http://127.0.0.1:3128"}}'
@@ -110,13 +119,22 @@ cd "$CONFIG_DIR" && git pull
 
 ### Step 6: Marketplace 동기화
 
-1. `$CONFIG_DIR/registry/marketplaces.json` 파일을 읽어 marketplace 목록을 확인합니다.
+1. `$REGISTRY_DIR/marketplaces.json` 파일을 읽어 marketplace 목록을 확인합니다.
 
-2. 각 marketplace에 대해:
+2. **registry에 없는 marketplace 삭제**: `~/.claude/plugins/known_marketplaces.json`을 읽어 registry에 명시되지 않은 marketplace를 삭제합니다.
+   ```bash
+   # 현재 등록된 marketplace 목록 확인
+   cat ~/.claude/plugins/known_marketplaces.json
+
+   # registry에 없는 marketplace 삭제
+   claude plugin marketplace remove <marketplace_name>
+   ```
+
+3. 각 marketplace에 대해:
    - `source`가 `github`인 경우: `claude plugin marketplace add <repo>`
    - `source`가 `git`인 경우: `claude plugin marketplace add <url>`
 
-3. 예시:
+4. 예시:
    ```bash
    claude plugin marketplace add anthropics/claude-plugins-official
    claude plugin marketplace add https://github.com/h16rkim/cc-lsp.git
@@ -124,9 +142,18 @@ cd "$CONFIG_DIR" && git pull
 
 ### Step 7: Plugin 동기화
 
-1. `$CONFIG_DIR/registry/plugins.json` 파일을 읽어 plugin 목록을 확인합니다.
+1. `$REGISTRY_DIR/plugins.json` 파일을 읽어 plugin 목록을 확인합니다.
 
-2. 각 plugin에 대해:
+2. **registry에 없는 plugin 삭제**: `~/.claude/plugins/installed_plugins.json`을 읽어 registry에 명시되지 않은 plugin을 삭제합니다.
+   ```bash
+   # 현재 설치된 plugin 목록 확인
+   cat ~/.claude/plugins/installed_plugins.json
+
+   # registry에 없는 plugin 삭제
+   claude plugin uninstall <name>@<marketplace>
+   ```
+
+3. 각 plugin에 대해:
    ```bash
    # 설치
    claude plugin install <name>@<marketplace>
@@ -136,7 +163,7 @@ cd "$CONFIG_DIR" && git pull
    claude plugin disable <name>@<marketplace>  # enabled: false
    ```
 
-3. 예시:
+4. 예시:
    ```bash
    claude plugin install kotlin-lsp@cc-lsp
    claude plugin enable kotlin-lsp@cc-lsp

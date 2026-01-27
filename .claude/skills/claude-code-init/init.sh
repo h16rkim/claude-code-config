@@ -8,6 +8,11 @@ set -e
 SCRIPT_DIR="$(git rev-parse --show-toplevel)"
 CLAUDE_BASE_DIR="$HOME/.claude"
 
+# 자주 사용되는 경로 변수화
+CONFIG_DIR="$SCRIPT_DIR/config"
+CONFIG_COMMANDS_DIR="$CONFIG_DIR/commands"
+CONFIG_SKILLS_DIR="$CONFIG_DIR/skills"
+
 echo "=== Claude Code Config 초기 설정 ==="
 echo ""
 
@@ -20,36 +25,36 @@ echo ""
 echo "[2/7] 기존 설정을 프로젝트로 백업..."
 
 # config 디렉토리 생성
-mkdir -p "$SCRIPT_DIR/config"
+mkdir -p "$CONFIG_DIR"
 
 # settings.json 백업
 if [ -f "$CLAUDE_BASE_DIR/settings.json" ] && [ ! -L "$CLAUDE_BASE_DIR/settings.json" ]; then
-    cp "$CLAUDE_BASE_DIR/settings.json" "$SCRIPT_DIR/config/"
+    cp "$CLAUDE_BASE_DIR/settings.json" "$CONFIG_DIR/"
     echo "  - settings.json -> config/settings.json"
 fi
 
 # CLAUDE.md 백업
 if [ -f "$CLAUDE_BASE_DIR/CLAUDE.md" ] && [ ! -L "$CLAUDE_BASE_DIR/CLAUDE.md" ]; then
-    cp "$CLAUDE_BASE_DIR/CLAUDE.md" "$SCRIPT_DIR/config/"
+    cp "$CLAUDE_BASE_DIR/CLAUDE.md" "$CONFIG_DIR/"
     echo "  - CLAUDE.md -> config/CLAUDE.md"
 fi
 
 # commands 디렉토리 내 파일들 백업 (symlink가 아닌 파일만)
 if [ -d "$CLAUDE_BASE_DIR/commands" ] && [ ! -L "$CLAUDE_BASE_DIR/commands" ]; then
-    mkdir -p "$SCRIPT_DIR/config/commands"
+    mkdir -p "$CONFIG_COMMANDS_DIR"
     find "$CLAUDE_BASE_DIR/commands" -maxdepth 1 -type f ! -name ".*" | while read -r file; do
         filename=$(basename "$file")
-        cp "$file" "$SCRIPT_DIR/config/commands/"
+        cp "$file" "$CONFIG_COMMANDS_DIR/"
         echo "  - commands/$filename -> config/commands/$filename"
     done
 fi
 
 # skills 디렉토리 내 파일들 백업 (symlink가 아닌 파일만)
 if [ -d "$CLAUDE_BASE_DIR/skills" ] && [ ! -L "$CLAUDE_BASE_DIR/skills" ]; then
-    mkdir -p "$SCRIPT_DIR/config/skills"
+    mkdir -p "$CONFIG_SKILLS_DIR"
     find "$CLAUDE_BASE_DIR/skills" -maxdepth 1 -type f ! -name ".*" | while read -r file; do
         filename=$(basename "$file")
-        cp "$file" "$SCRIPT_DIR/config/skills/"
+        cp "$file" "$CONFIG_SKILLS_DIR/"
         echo "  - skills/$filename -> config/skills/$filename"
     done
 fi
@@ -62,29 +67,29 @@ echo "[3/7] 심볼릭 링크 생성..."
 if [ -e "$CLAUDE_BASE_DIR/settings.json" ] || [ -L "$CLAUDE_BASE_DIR/settings.json" ]; then
     rm -f "$CLAUDE_BASE_DIR/settings.json"
 fi
-ln -s "$SCRIPT_DIR/config/settings.json" "$CLAUDE_BASE_DIR/settings.json"
-echo "  - settings.json -> $SCRIPT_DIR/config/settings.json"
+ln -s "$CONFIG_DIR/settings.json" "$CLAUDE_BASE_DIR/settings.json"
+echo "  - settings.json -> $CONFIG_DIR/settings.json"
 
 # CLAUDE.md
 if [ -e "$CLAUDE_BASE_DIR/CLAUDE.md" ] || [ -L "$CLAUDE_BASE_DIR/CLAUDE.md" ]; then
     rm -f "$CLAUDE_BASE_DIR/CLAUDE.md"
 fi
-ln -s "$SCRIPT_DIR/config/CLAUDE.md" "$CLAUDE_BASE_DIR/CLAUDE.md"
-echo "  - CLAUDE.md -> $SCRIPT_DIR/config/CLAUDE.md"
+ln -s "$CONFIG_DIR/CLAUDE.md" "$CLAUDE_BASE_DIR/CLAUDE.md"
+echo "  - CLAUDE.md -> $CONFIG_DIR/CLAUDE.md"
 
 # commands/
 if [ -e "$CLAUDE_BASE_DIR/commands" ] || [ -L "$CLAUDE_BASE_DIR/commands" ]; then
     rm -rf "$CLAUDE_BASE_DIR/commands"
 fi
-ln -s "$SCRIPT_DIR/commands" "$CLAUDE_BASE_DIR/config/commands"
-echo "  - commands/ -> $SCRIPT_DIR/config/commands"
+ln -s "$CONFIG_COMMANDS_DIR" "$CLAUDE_BASE_DIR/commands"
+echo "  - commands/ -> $CONFIG_COMMANDS_DIR"
 
 # skills/
 if [ -e "$CLAUDE_BASE_DIR/skills" ] || [ -L "$CLAUDE_BASE_DIR/skills" ]; then
     rm -rf "$CLAUDE_BASE_DIR/skills"
 fi
-ln -s "$SCRIPT_DIR/config/skills" "$CLAUDE_BASE_DIR/skills"
-echo "  - skills/ -> $SCRIPT_DIR/config/skills"
+ln -s "$CONFIG_SKILLS_DIR" "$CLAUDE_BASE_DIR/skills"
+echo "  - skills/ -> $CONFIG_SKILLS_DIR"
 
 # 4. MCP 서버 설치
 echo ""
@@ -183,10 +188,10 @@ echo "[7/7] 설정 완료!"
 echo ""
 echo "=== 설정 요약 ==="
 echo "심볼릭 링크:"
-echo "  - $CLAUDE_BASE_DIR/settings.json -> $SCRIPT_DIR/config/settings.json"
-echo "  - $CLAUDE_BASE_DIR/CLAUDE.md -> $SCRIPT_DIR/config/CLAUDE.md"
-echo "  - $CLAUDE_BASE_DIR/commands -> $SCRIPT_DIR/config/commands"
-echo "  - $CLAUDE_BASE_DIR/skills -> $SCRIPT_DIR/skills"
+echo "  - $CLAUDE_BASE_DIR/settings.json -> $CONFIG_DIR/settings.json"
+echo "  - $CLAUDE_BASE_DIR/CLAUDE.md -> $CONFIG_DIR/CLAUDE.md"
+echo "  - $CLAUDE_BASE_DIR/commands -> $CONFIG_COMMANDS_DIR"
+echo "  - $CLAUDE_BASE_DIR/skills -> $CONFIG_SKILLS_DIR"
 echo ""
 echo "⚠️  Claude Code를 재시작하여 설정을 적용해주세요."
 echo ""

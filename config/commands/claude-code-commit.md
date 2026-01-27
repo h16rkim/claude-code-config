@@ -12,21 +12,23 @@ allowed-tools: Bash, Read, Write, Edit
 
 ### Step 1: 프로젝트 경로 탐지
 
-1. `~/.claude/commands` 심볼릭 링크에서 프로젝트 경로를 찾습니다:
+1. `~/.claude/commands` 심볼릭 링크에서 프로젝트 경로를 찾고 자주 사용되는 경로를 변수화합니다:
    ```bash
-   CONFIG_DIR="$(dirname "$(readlink "$HOME/.claude/commands")")"
-   echo "프로젝트 경로: $CONFIG_DIR"
+   PROJECT_DIR="$(dirname "$(readlink "$HOME/.claude/commands")")"
+   CONFIG_DIR="$PROJECT_DIR/config"
+   REGISTRY_DIR="$PROJECT_DIR/registry"
+   echo "프로젝트 경로: $PROJECT_DIR"
    ```
 
 2. 프로젝트 경로가 유효한지 확인:
    ```bash
-   ls -la "$CONFIG_DIR/config/settings.json"
+   ls -la "$CONFIG_DIR/settings.json"
    ```
    파일이 없으면 "claude-code-config 프로젝트를 찾을 수 없습니다. init.sh를 먼저 실행해주세요."라고 알려주세요.
 
 3. Git 상태 확인:
    ```bash
-   cd "$CONFIG_DIR" && git status
+   cd "$PROJECT_DIR" && git status
    ```
 
 ### Step 2: 설정 파일 백업
@@ -38,15 +40,15 @@ allowed-tools: Bash, Read, Write, Edit
    - 로컬 전용 필드(`feedbackSurveyState` 등)는 제거합니다
    - `statusLine.command`의 절대 경로를 `$HOME` 형식으로 변환합니다
 
-   변환된 내용을 `$CONFIG_DIR/config/settings.json`에 저장합니다.
+   변환된 내용을 `$CONFIG_DIR/settings.json`에 저장합니다.
 
 2. **CLAUDE.md 백업**
 
-   `~/.claude/CLAUDE.md` 파일을 `$CONFIG_DIR/config/CLAUDE.md`에 복사합니다.
+   `~/.claude/CLAUDE.md` 파일을 `$CONFIG_DIR/CLAUDE.md`에 복사합니다.
 
 ### Step 3: Commands 백업
 
-`~/.claude/commands/` 디렉토리의 내용을 `$CONFIG_DIR/commands/`에 동기화합니다.
+`~/.claude/commands/` 디렉토리의 내용을 `$PROJECT_DIR/commands/`에 동기화합니다.
 
 **참고**: 심볼릭 링크로 연결되어 있으면 이미 동기화되어 있습니다. 심볼릭 링크가 아닌 경우에만 파일을 복사합니다.
 
@@ -67,7 +69,7 @@ allowed-tools: Bash, Read, Write, Edit
 
 ### Step 3-1: Skills 백업
 
-`~/.claude/skills/` 디렉토리의 내용을 `$CONFIG_DIR/skills/`에 동기화합니다.
+`~/.claude/skills/` 디렉토리의 내용을 `$PROJECT_DIR/skills/`에 동기화합니다.
 
 **참고**: 심볼릭 링크로 연결되어 있으면 이미 동기화되어 있습니다. 심볼릭 링크가 아닌 경우에만 파일을 복사합니다.
 
@@ -97,7 +99,7 @@ allowed-tools: Bash, Read, Write, Edit
    claude mcp get <server_name>
    ```
 
-3. `$CONFIG_DIR/registry/mcp-servers.json` 파일을 업데이트합니다.
+3. `$REGISTRY_DIR/mcp-servers.json` 파일을 업데이트합니다.
 
    형식:
    ```json
@@ -133,7 +135,7 @@ allowed-tools: Bash, Read, Write, Edit
 
 1. `~/.claude/plugins/known_marketplaces.json` 파일을 읽습니다.
 
-2. 각 marketplace의 정보를 추출하여 `$CONFIG_DIR/registry/marketplaces.json`을 업데이트합니다.
+2. 각 marketplace의 정보를 추출하여 `$REGISTRY_DIR/marketplaces.json`을 업데이트합니다.
 
    형식:
    ```json
@@ -159,7 +161,7 @@ allowed-tools: Bash, Read, Write, Edit
 
 2. `~/.claude/settings.json`의 `enabledPlugins` 필드를 확인합니다.
 
-3. 각 plugin의 활성화 상태를 포함하여 `$CONFIG_DIR/registry/plugins.json`을 업데이트합니다.
+3. 각 plugin의 활성화 상태를 포함하여 `$REGISTRY_DIR/plugins.json`을 업데이트합니다.
 
    형식:
    ```json
@@ -178,7 +180,7 @@ allowed-tools: Bash, Read, Write, Edit
 
 1. 프로젝트 디렉토리로 이동하여 Git diff로 변경사항 표시:
    ```bash
-   cd "$CONFIG_DIR" && git diff
+   cd "$PROJECT_DIR" && git diff
    ```
 
 2. 변경사항을 사용자에게 요약하여 보여줍니다:
@@ -191,7 +193,7 @@ allowed-tools: Bash, Read, Write, Edit
    - 커밋을 원하면 프로젝트 디렉토리에서 `/commit` 명령어 사용을 권장합니다.
    - 또는 직접 커밋:
      ```bash
-     cd "$CONFIG_DIR" && git add . && git commit -m "Update claude code config"
+     cd "$PROJECT_DIR" && git add . && git commit -m "Update claude code config"
      ```
 
 ## 주의사항
