@@ -64,30 +64,22 @@ echo ""
 echo "[3/7] 심볼릭 링크 생성..."
 
 # settings.json
-if [ -e "$CLAUDE_BASE_DIR/settings.json" ] || [ -L "$CLAUDE_BASE_DIR/settings.json" ]; then
-    rm -f "$CLAUDE_BASE_DIR/settings.json"
-fi
+rm -f "$CLAUDE_BASE_DIR/settings.json"
 ln -s "$CONFIG_DIR/settings.json" "$CLAUDE_BASE_DIR/settings.json"
 echo "  - settings.json -> $CONFIG_DIR/settings.json"
 
 # CLAUDE.md
-if [ -e "$CLAUDE_BASE_DIR/CLAUDE.md" ] || [ -L "$CLAUDE_BASE_DIR/CLAUDE.md" ]; then
-    rm -f "$CLAUDE_BASE_DIR/CLAUDE.md"
-fi
+rm -f "$CLAUDE_BASE_DIR/CLAUDE.md"
 ln -s "$CONFIG_DIR/CLAUDE.md" "$CLAUDE_BASE_DIR/CLAUDE.md"
 echo "  - CLAUDE.md -> $CONFIG_DIR/CLAUDE.md"
 
 # commands/
-if [ -e "$CLAUDE_BASE_DIR/commands" ] || [ -L "$CLAUDE_BASE_DIR/commands" ]; then
-    rm -rf "$CLAUDE_BASE_DIR/commands"
-fi
+rm -rf "$CLAUDE_BASE_DIR/commands"
 ln -s "$CONFIG_COMMANDS_DIR" "$CLAUDE_BASE_DIR/commands"
 echo "  - commands/ -> $CONFIG_COMMANDS_DIR"
 
 # skills/
-if [ -e "$CLAUDE_BASE_DIR/skills" ] || [ -L "$CLAUDE_BASE_DIR/skills" ]; then
-    rm -rf "$CLAUDE_BASE_DIR/skills"
-fi
+rm -rf "$CLAUDE_BASE_DIR/skills"
 ln -s "$CONFIG_SKILLS_DIR" "$CLAUDE_BASE_DIR/skills"
 echo "  - skills/ -> $CONFIG_SKILLS_DIR"
 

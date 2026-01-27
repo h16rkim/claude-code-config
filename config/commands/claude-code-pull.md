@@ -14,7 +14,7 @@ Repository의 설정을 로컬 환경에 적용합니다.
 
 1. `~/.claude/commands` 심볼릭 링크에서 프로젝트 경로를 찾고 자주 사용되는 경로를 변수화합니다:
    ```bash
-   PROJECT_DIR="$(dirname "$(readlink "$HOME/.claude/commands")")"
+   PROJECT_DIR="$(dirname "$(dirname "$(readlink "$HOME/.claude/commands")")")"
    CONFIG_DIR="$PROJECT_DIR/config"
    REGISTRY_DIR="$PROJECT_DIR/registry"
    echo "프로젝트 경로: $PROJECT_DIR"
