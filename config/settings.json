@@ -65,9 +65,9 @@
   },
   "enabledPlugins": {
     "jdtls@cc-lsp": true,
-    "kotlin-lsp@cc-lsp": true,
     "typescript-language-server@cc-lsp": true,
-    "git-workflow@inflab": true
+    "git-workflow@inflab": true,
+    "kotlin-lsp@cc-lsp": true
   },
   "alwaysThinkingEnabled": true,
   "disableBypassPermissionsMode": true
