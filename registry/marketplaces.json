@@ -1,24 +1,5 @@
 {
   "marketplaces": [
-    {
-      "name": "claude-plugins-official",
-      "source": "github",
-      "repo": "anthropics/claude-plugins-official"
-    },
-    {
-      "name": "inflab",
-      "source": "github",
-      "repo": "inflearn/claude-plugins"
-    },
-    {
-      "name": "cc-lsp",
-      "source": "git",
-      "url": "https://github.com/h16rkim/cc-lsp.git"
-    },
-    {
-      "name": "claude-hud",
-      "source": "github",
-      "repo": "jarrodwatts/claude-hud"
-    }
+
   ]
 }

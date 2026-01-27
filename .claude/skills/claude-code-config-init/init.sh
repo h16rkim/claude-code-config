@@ -12,37 +12,51 @@ echo "=== Claude Code Config 초기 설정 ==="
 echo ""
 
 # 1. ~/.claude 디렉토리 생성
-echo "[1/6] ~/.claude 디렉토리 확인..."
+echo "[1/7] ~/.claude 디렉토리 확인..."
 mkdir -p "$CLAUDE_BASE_DIR"
-mkdir -p "$CLAUDE_BASE_DIR/backup"
 
-# 2. 기존 설정 백업 (심볼릭 링크가 아닌 경우)
-BACKUP_DIR="$CLAUDE_BASE_DIR/backup/$(date +%Y%m%d_%H%M%S)"
-mkdir -p "$BACKUP_DIR"
+# 2. 기존 설정을 프로젝트로 백업 (심볼릭 링크가 아닌 실제 파일만)
+echo ""
+echo "[2/7] 기존 설정을 프로젝트로 백업..."
 
+# config 디렉토리 생성
+mkdir -p "$SCRIPT_DIR/config"
+
+# settings.json 백업
 if [ -f "$CLAUDE_BASE_DIR/settings.json" ] && [ ! -L "$CLAUDE_BASE_DIR/settings.json" ]; then
-    cp "$CLAUDE_BASE_DIR/settings.json" "$BACKUP_DIR/"
-    echo "  - 기존 settings.json 백업 완료"
+    cp "$CLAUDE_BASE_DIR/settings.json" "$SCRIPT_DIR/config/"
+    echo "  - settings.json -> config/settings.json"
 fi
 
+# CLAUDE.md 백업
 if [ -f "$CLAUDE_BASE_DIR/CLAUDE.md" ] && [ ! -L "$CLAUDE_BASE_DIR/CLAUDE.md" ]; then
-    cp "$CLAUDE_BASE_DIR/CLAUDE.md" "$BACKUP_DIR/"
-    echo "  - 기존 CLAUDE.md 백업 완료"
+    cp "$CLAUDE_BASE_DIR/CLAUDE.md" "$SCRIPT_DIR/config/"
+    echo "  - CLAUDE.md -> config/CLAUDE.md"
 fi
 
+# commands 디렉토리 내 파일들 백업 (symlink가 아닌 파일만)
 if [ -d "$CLAUDE_BASE_DIR/commands" ] && [ ! -L "$CLAUDE_BASE_DIR/commands" ]; then
-    cp -r "$CLAUDE_BASE_DIR/commands" "$BACKUP_DIR/"
-    echo "  - 기존 commands 디렉토리 백업 완료"
+    mkdir -p "$SCRIPT_DIR/commands"
+    find "$CLAUDE_BASE_DIR/commands" -maxdepth 1 -type f ! -name ".*" | while read -r file; do
+        filename=$(basename "$file")
+        cp "$file" "$SCRIPT_DIR/commands/"
+        echo "  - commands/$filename -> commands/$filename"
+    done
 fi
 
+# skills 디렉토리 내 파일들 백업 (symlink가 아닌 파일만)
 if [ -d "$CLAUDE_BASE_DIR/skills" ] && [ ! -L "$CLAUDE_BASE_DIR/skills" ]; then
-    cp -r "$CLAUDE_BASE_DIR/skills" "$BACKUP_DIR/"
-    echo "  - 기존 skills 디렉토리 백업 완료"
+    mkdir -p "$SCRIPT_DIR/skills"
+    find "$CLAUDE_BASE_DIR/skills" -maxdepth 1 -type f ! -name ".*" | while read -r file; do
+        filename=$(basename "$file")
+        cp "$file" "$SCRIPT_DIR/skills/"
+        echo "  - skills/$filename -> skills/$filename"
+    done
 fi
 
 # 3. 심볼릭 링크 생성
 echo ""
-echo "[2/6] 심볼릭 링크 생성..."
+echo "[3/7] 심볼릭 링크 생성..."
 
 # settings.json
 if [ -e "$CLAUDE_BASE_DIR/settings.json" ] || [ -L "$CLAUDE_BASE_DIR/settings.json" ]; then
@@ -74,7 +88,7 @@ echo "  - skills/ -> $SCRIPT_DIR/skills"
 
 # 4. MCP 서버 설치
 echo ""
-echo "[3/6] MCP 서버 설치..."
+echo "[4/7] MCP 서버 설치..."
 
 # registry/mcp-servers.json 파일 읽기
 if [ -f "$SCRIPT_DIR/registry/mcp-servers.json" ]; then
@@ -105,7 +119,7 @@ fi
 
 # 5. Marketplace 추가
 echo ""
-echo "[4/6] Marketplace 추가..."
+echo "[5/7] Marketplace 추가..."
 
 if [ -f "$SCRIPT_DIR/registry/marketplaces.json" ]; then
     if command -v jq &> /dev/null; then
@@ -133,7 +147,7 @@ fi
 
 # 6. Plugin 설치
 echo ""
-echo "[5/6] Plugin 설치..."
+echo "[6/7] Plugin 설치..."
 
 if [ -f "$SCRIPT_DIR/registry/plugins.json" ]; then
     if command -v jq &> /dev/null; then
@@ -165,16 +179,14 @@ fi
 
 # 7. 완료
 echo ""
-echo "[6/6] 설정 완료!"
+echo "[7/7] 설정 완료!"
 echo ""
 echo "=== 설정 요약 ==="
 echo "심볼릭 링크:"
-echo "  - $CLAUDE_BASE_DIR/settings.json"
-echo "  - $CLAUDE_BASE_DIR/CLAUDE.md"
-echo "  - $CLAUDE_BASE_DIR/commands"
-echo "  - $CLAUDE_BASE_DIR/skills"
-echo ""
-echo "백업 위치: $BACKUP_DIR"
+echo "  - $CLAUDE_BASE_DIR/settings.json -> $SCRIPT_DIR/config/settings.json"
+echo "  - $CLAUDE_BASE_DIR/CLAUDE.md -> $SCRIPT_DIR/config/CLAUDE.md"
+echo "  - $CLAUDE_BASE_DIR/commands -> $SCRIPT_DIR/commands"
+echo "  - $CLAUDE_BASE_DIR/skills -> $SCRIPT_DIR/skills"
 echo ""
 echo "⚠️  Claude Code를 재시작하여 설정을 적용해주세요."
 echo ""

@@ -15,7 +15,7 @@ secrets/
 # 캐시 및 임시 파일
 *.log
 backup/
-.claude/
+.claude/settings.local.json
 
 # Node
 node_modules/
