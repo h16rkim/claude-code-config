@@ -34,7 +34,6 @@ Repository의 설정을 로컬 환경에 적용합니다.
 
 ### Step 2: 최신 설정 가져오기 (선택)
 
-사용자에게 `git pull`을 실행할지 확인합니다:
 ```bash
 cd "$PROJECT_DIR" && git pull
 ```
