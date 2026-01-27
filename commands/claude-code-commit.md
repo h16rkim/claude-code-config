@@ -111,6 +111,23 @@ allowed-tools: Bash, Read, Write, Edit
      ]
    }
    ```
+   
+  예시:
+  ```json
+  {
+     "name": "fetch",
+     "scope": "user",
+     "config": {
+        "type": "stdio",
+        "command": "npx",
+        "args": ["-y", "@h16rkim/mcp-fetch-server@latest"],
+        "env": {
+           "HTTP_PROXY": "http://127.0.0.1:3128",
+           "HTTPS_PROXY": "http://127.0.0.1:3128"
+        }
+     }
+  }
+  ```
 
 ### Step 5: Marketplace 목록 추출
 

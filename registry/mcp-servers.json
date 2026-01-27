@@ -1,5 +1,17 @@
 {
   "servers": [
-
+    {
+      "name": "fetch",
+      "scope": "user",
+      "config": {
+        "type": "stdio",
+        "command": "npx",
+        "args": ["-y", "@h16rkim/mcp-fetch-server@latest"],
+        "env": {
+          "HTTP_PROXY": "http://127.0.0.1:3128",
+          "HTTPS_PROXY": "http://127.0.0.1:3128"
+        }
+      }
+    }
   ]
 }

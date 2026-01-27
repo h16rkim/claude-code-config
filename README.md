@@ -6,24 +6,27 @@
 
 ```
 claude-code-config/
+├── .claude/
+│   └── skills/
+│       └── claude-code-init/    # 초기화 스킬
+│           ├── SKILL.md
+│           └── init.sh
+│
 ├── config/                 # 핵심 설정 파일
 │   ├── settings.json       # Claude Code 메인 설정
 │   └── CLAUDE.md           # 전역 사용자 지침
 │
 ├── commands/               # 슬래시 명령어
-│   ├── sync.md             # /sync - 설정 동기화
-│   ├── backup.md           # /backup - 설정 백업
-│   └── ...                 # 기타 명령어
+│   ├── claude-code-pull.md   # /claude-code-pull - 설정 동기화
+│   ├── claude-code-commit.md # /claude-code-commit - 설정 백업
+│   └── ...                   # 기타 명령어
 │
-├── custom/                 # 커스텀 스크립트
-│   └── scripts/
+├── skills/                 # 사용자 정의 스킬
 │
-├── registry/               # 확장 목록
-│   ├── mcp-servers.json    # MCP 서버 목록
-│   ├── marketplaces.json   # Marketplace 목록
-│   └── plugins.json        # Plugin 목록
-│
-└── init.sh                 # 초기 설정 스크립트
+└── registry/               # 확장 목록
+    ├── mcp-servers.json    # MCP 서버 목록
+    ├── marketplaces.json   # Marketplace 목록
+    └── plugins.json        # Plugin 목록
 ```
 
 ## 사용법
@@ -34,17 +37,24 @@ claude-code-config/
 # 1. Repository 클론
 git clone <repository-url> ~/develop/private/claude-code-config
 
-# 2. 초기 설정 실행
+# 2. 프로젝트 디렉토리에서 Claude Code 실행 후 초기화 스킬 실행
 cd ~/develop/private/claude-code-config
-./init.sh
+claude
+# Claude Code 내에서:
+/claude-code-init
 ```
+
+`/claude-code-init` 스킬은 다음 작업을 수행합니다:
+- 로컬 설정을 프로젝트에 백업
+- 심볼릭 링크 생성 (settings.json, CLAUDE.md, commands/, skills/)
+- MCP 서버, Marketplace, Plugin 설치
 
 ### 설정 동기화 (Repository → 로컬)
 
-**어디서든 실행 가능합니다.** 프로젝트 경로는 자동으로 탐지됩니다.
+**어디서든 실행 가능합니다.** 프로젝트 경로는 심볼릭 링크를 통해 자동으로 탐지됩니다.
 
 ```bash
-# Claude Code에서 /sync 실행 (어느 디렉토리에서든 가능)
+# Claude Code에서 /claude-code-pull 실행 (어느 디렉토리에서든 가능)
 ```
 
 ### 설정 백업 (로컬 → Repository)
@@ -52,11 +62,13 @@ cd ~/develop/private/claude-code-config
 **어디서든 실행 가능합니다.**
 
 ```bash
-# 1. Claude Code에서 /backup 실행 (어느 디렉토리에서든 가능)
+# 1. Claude Code에서 /claude-code-commit 실행 (어느 디렉토리에서든 가능)
+#    - 설정 파일들을 Repository에 백업
+#    - 변경사항 확인 후 커밋 여부 질문
 
-# 2. 변경사항 커밋 및 푸시 (프로젝트 디렉토리에서)
+# 2. 필요시 수동으로 푸시
 cd ~/develop/private/claude-code-config
-git add . && git commit -m "Update claude code config" && git push
+git push
 ```
 
 ## 관리되는 설정
@@ -64,6 +76,15 @@ git add . && git commit -m "Update claude code config" && git push
 - **settings.json**: 환경변수, 권한, 훅, 플러그인 설정
 - **CLAUDE.md**: 전역 사용자 지침
 - **commands/**: 커스텀 슬래시 명령어
+- **skills/**: 사용자 정의 스킬
 - **MCP 서버**: `registry/mcp-servers.json`에서 관리
 - **Marketplace**: `registry/marketplaces.json`에서 관리
 - **Plugin**: `registry/plugins.json`에서 관리
+
+## 슬래시 명령어
+
+| 명령어 | 설명 |
+|--------|------|
+| `/claude-code-init` | 새 머신에서 초기 설정 (프로젝트 디렉토리에서 실행) |
+| `/claude-code-pull` | Repository 설정을 로컬에 동기화 |
+| `/claude-code-commit` | 로컬 설정을 Repository에 백업 |
