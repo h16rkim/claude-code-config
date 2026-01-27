@@ -45,11 +45,26 @@ cd "$CONFIG_DIR" && git pull
    mkdir -p "$BACKUP_DIR"
    ```
 
-2. 심볼릭 링크가 아닌 실제 파일만 백업
+2. 심볼릭 링크가 아닌 실제 파일/디렉토리만 백업
    ```bash
    # settings.json 백업 (심볼릭 링크가 아닌 경우)
    if [ -f "$HOME/.claude/settings.json" ] && [ ! -L "$HOME/.claude/settings.json" ]; then
      cp "$HOME/.claude/settings.json" "$BACKUP_DIR/"
+   fi
+
+   # CLAUDE.md 백업 (심볼릭 링크가 아닌 경우)
+   if [ -f "$HOME/.claude/CLAUDE.md" ] && [ ! -L "$HOME/.claude/CLAUDE.md" ]; then
+     cp "$HOME/.claude/CLAUDE.md" "$BACKUP_DIR/"
+   fi
+
+   # commands 디렉토리 백업 (심볼릭 링크가 아닌 경우)
+   if [ -d "$HOME/.claude/commands" ] && [ ! -L "$HOME/.claude/commands" ]; then
+     cp -r "$HOME/.claude/commands" "$BACKUP_DIR/"
+   fi
+
+   # skills 디렉토리 백업 (심볼릭 링크가 아닌 경우)
+   if [ -d "$HOME/.claude/skills" ] && [ ! -L "$HOME/.claude/skills" ]; then
+     cp -r "$HOME/.claude/skills" "$BACKUP_DIR/"
    fi
    ```
 
@@ -68,9 +83,10 @@ cd "$CONFIG_DIR" && git pull
    ln -s "$CONFIG_DIR/config/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 
    # commands/ (이미 심볼릭 링크로 연결되어 있음 - 확인만)
-   # custom/
-   rm -rf "$HOME/.claude/custom"
-   ln -s "$CONFIG_DIR/custom" "$HOME/.claude/custom"
+
+   # skills/
+   rm -rf "$HOME/.claude/skills"
+   ln -s "$CONFIG_DIR/skills" "$HOME/.claude/skills"
    ```
 
 ### Step 5: MCP 서버 동기화

@@ -65,6 +65,26 @@ allowed-tools: Bash, Read, Write, Edit
    - 변경된 파일 업데이트
    - `sync.md`, `backup.md`는 덮어쓰지 않음 (이 repository의 핵심 파일)
 
+### Step 3-1: Skills 백업
+
+`~/.claude/skills/` 디렉토리의 내용을 `$CONFIG_DIR/skills/`에 동기화합니다.
+
+**참고**: 심볼릭 링크로 연결되어 있으면 이미 동기화되어 있습니다. 심볼릭 링크가 아닌 경우에만 파일을 복사합니다.
+
+1. 심볼릭 링크 여부 확인:
+   ```bash
+   if [ -L "$HOME/.claude/skills" ]; then
+     echo "skills/는 이미 심볼릭 링크로 연결되어 있습니다."
+   else
+     # 파일 동기화 필요
+     ls -la ~/.claude/skills/
+   fi
+   ```
+
+2. 심볼릭 링크가 아닌 경우:
+   - 로컬에 있는 새 skill 파일 추가
+   - 변경된 파일 업데이트
+
 ### Step 4: MCP 서버 목록 추출
 
 1. 현재 설치된 MCP 서버 목록 조회:

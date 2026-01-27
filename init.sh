@@ -30,6 +30,16 @@ if [ -f "$CLAUDE_BASE_DIR/CLAUDE.md" ] && [ ! -L "$CLAUDE_BASE_DIR/CLAUDE.md" ];
     echo "  - 기존 CLAUDE.md 백업 완료"
 fi
 
+if [ -d "$CLAUDE_BASE_DIR/commands" ] && [ ! -L "$CLAUDE_BASE_DIR/commands" ]; then
+    cp -r "$CLAUDE_BASE_DIR/commands" "$BACKUP_DIR/"
+    echo "  - 기존 commands 디렉토리 백업 완료"
+fi
+
+if [ -d "$CLAUDE_BASE_DIR/skills" ] && [ ! -L "$CLAUDE_BASE_DIR/skills" ]; then
+    cp -r "$CLAUDE_BASE_DIR/skills" "$BACKUP_DIR/"
+    echo "  - 기존 skills 디렉토리 백업 완료"
+fi
+
 # 3. 심볼릭 링크 생성
 echo ""
 echo "[2/6] 심볼릭 링크 생성..."
@@ -55,12 +65,12 @@ fi
 ln -s "$SCRIPT_DIR/commands" "$CLAUDE_BASE_DIR/commands"
 echo "  - commands/ -> $SCRIPT_DIR/commands"
 
-# custom/
-if [ -e "$CLAUDE_BASE_DIR/custom" ] || [ -L "$CLAUDE_BASE_DIR/custom" ]; then
-    rm -rf "$CLAUDE_BASE_DIR/custom"
+# skills/
+if [ -e "$CLAUDE_BASE_DIR/skills" ] || [ -L "$CLAUDE_BASE_DIR/skills" ]; then
+    rm -rf "$CLAUDE_BASE_DIR/skills"
 fi
-ln -s "$SCRIPT_DIR/custom" "$CLAUDE_BASE_DIR/custom"
-echo "  - custom/ -> $SCRIPT_DIR/custom"
+ln -s "$SCRIPT_DIR/skills" "$CLAUDE_BASE_DIR/skills"
+echo "  - skills/ -> $SCRIPT_DIR/skills"
 
 # 4. MCP 서버 설치
 echo ""
@@ -162,7 +172,7 @@ echo "심볼릭 링크:"
 echo "  - $CLAUDE_BASE_DIR/settings.json"
 echo "  - $CLAUDE_BASE_DIR/CLAUDE.md"
 echo "  - $CLAUDE_BASE_DIR/commands"
-echo "  - $CLAUDE_BASE_DIR/custom"
+echo "  - $CLAUDE_BASE_DIR/skills"
 echo ""
 echo "백업 위치: $BACKUP_DIR"
 echo ""
