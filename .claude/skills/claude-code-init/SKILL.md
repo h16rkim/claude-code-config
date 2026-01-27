@@ -13,7 +13,7 @@ allowed-tools: Bash, Read, Write, Edit
 3. **MCP 서버 설정 읽기**: `~/.claude.json` 파일에서 MCP 서버 정보를 읽어 `registry/mcp-servers.json`에 저장
 4. **Marketplace 설정 읽기**: `claude plugin marketplace list` 명령으로 marketplace 목록을 읽어 `registry/marketplaces.json`에 저장
 5. **Plugin 설정 읽기**: `claude plugin list` 명령으로 설치된 플러그인 목록을 읽어 `registry/plugins.json`에 저장
-6. **init.sh 실행**: 위 작업 완료 후 `./init.sh`를 실행하여 설정 적용
+6. **init.sh 실행**: 위 작업 완료 후 `init.sh`를 실행하여 설정 적용
 
 ## Registry JSON 파일 형식
 
@@ -156,7 +156,7 @@ MCP 서버 설정을 저장합니다. `~/.claude.json`의 `mcpServers` 섹션에
 3. `registry/plugins.json` 파일에 저장합니다.
 
 ### Step 6: init.sh 실행
-1. 위 단계가 모두 완료되면 루트 디렉토리의 `./init.sh`를 실행합니다.
+1. 위 단계가 모두 완료되면 이 스킬의 `init.sh`를 실행합니다.
 2. 실행 결과를 사용자에게 보고합니다.
 
 ## 주의사항
