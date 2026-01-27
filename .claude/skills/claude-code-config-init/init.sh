@@ -5,7 +5,7 @@
 
 set -e
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="$(git rev-parse --show-toplevel)"
 CLAUDE_BASE_DIR="$HOME/.claude"
 
 echo "=== Claude Code Config 초기 설정 ==="
