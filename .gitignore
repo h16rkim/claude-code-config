@@ -1,0 +1,21 @@
+# OS 파일
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 민감한 정보
+*.local.json
+secrets/
+
+# 캐시 및 임시 파일
+*.log
+backup/
+.claude/
+
+# Node
+node_modules/

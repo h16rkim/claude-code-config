@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "env": {
+    "USE_BUILTIN_RIPGREP": "1",
+    "ENABLE_LSP_TOOL": "1",
+    "HTTP_PROXY": "http://127.0.0.1:3128",
+    "HTTPS_PROXY": "http://127.0.0.1:3128"
+  },
+  "includeCoAuthoredBy": false,
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(grep:*)",
+      "Bash(./gradlew:*)"
+    ],
+    "deny": [
+      "Read(node_modules/)",
+      "Read(**/build/)",
+      "Read(**/bin/)",
+      "Read(**/dist/)",
+      "Read(**/.env)",
+      "Read(**/*/application.yml)",
+      "Bash(cat **/*/application.yml)",
+      "Bash(less **/*/application.yml)",
+      "Bash(more **/*/application.yml)",
+      "Bash(head **/*/application.yml)",
+      "Bash(tail **/*/application.yml)",
+      "Read(**/*/env.*.yml)",
+      "Bash(cat **/*/env.*.yml)",
+      "Bash(less **/*/env.*.yml)",
+      "Bash(more **/*/env.*.yml)",
+      "Bash(head **/*/env.*.yml)",
+      "Bash(tail **/*/env.*.yml)",
+      "Bash(git push:*)"
+    ]
+  },
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "terminal-notifier -title 'Claude Code' -message 'User input required'"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "terminal-notifier -title 'Claude Code' -message 'Request finished'"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": []
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bash -c '\"$HOME/.nvm/versions/node/v20.15.1/bin/node\" \"$(ls -td ~/.claude/plugins/cache/claude-hud/claude-hud/*/ 2>/dev/null | head -1)dist/index.js\"'"
+  },
+  "enabledPlugins": {
+    "jdtls@cc-lsp": true,
+    "kotlin-lsp@cc-lsp": true,
+    "typescript-language-server@cc-lsp": true,
+    "claude-hud@claude-hud": true,
+    "git-workflow@inflab": true
+  },
+  "alwaysThinkingEnabled": true,
+  "disableBypassPermissionsMode": true
+}

@@ -1,0 +1,29 @@
+{
+  "plugins": [
+    {
+      "name": "jdtls",
+      "marketplace": "cc-lsp",
+      "enabled": true
+    },
+    {
+      "name": "kotlin-lsp",
+      "marketplace": "cc-lsp",
+      "enabled": true
+    },
+    {
+      "name": "typescript-language-server",
+      "marketplace": "cc-lsp",
+      "enabled": true
+    },
+    {
+      "name": "claude-hud",
+      "marketplace": "claude-hud",
+      "enabled": true
+    },
+    {
+      "name": "git-workflow",
+      "marketplace": "inflab",
+      "enabled": true
+    }
+  ]
+}
