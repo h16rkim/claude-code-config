@@ -86,11 +86,11 @@ cd "$PROJECT_DIR" && git pull
 
    # skills/
    rm -rf "$HOME/.claude/skills"
-   ln -s "$PROJECT_DIR/config/skills" "$HOME/.claude/skills"
+   ln -s "$CONFIG_DIR/skills" "$HOME/.claude/skills"
    
    # commands/
    rm -rf "$HOME/.claude/commands"
-   ln -s "$PROJECT_DIR/config/commands" "$HOME/.claude/commands"
+   ln -s "$CONFIG_DIR/commands" "$HOME/.claude/commands"
 
    ```
 
