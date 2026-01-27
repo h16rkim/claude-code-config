@@ -61,13 +61,12 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "bash -c '\"$HOME/.nvm/versions/node/v20.15.1/bin/node\" \"$(ls -td ~/.claude/plugins/cache/claude-hud/claude-hud/*/ 2>/dev/null | head -1)dist/index.js\"'"
+    "command": "~/.claude/custom/scripts/statusline.sh"
   },
   "enabledPlugins": {
     "jdtls@cc-lsp": true,
     "kotlin-lsp@cc-lsp": true,
     "typescript-language-server@cc-lsp": true,
-    "claude-hud@claude-hud": true,
     "git-workflow@inflab": true
   },
   "alwaysThinkingEnabled": true,

@@ -1,11 +1,6 @@
 {
   "plugins": [
     {
-      "name": "claude-hud",
-      "marketplace": "claude-hud",
-      "enabled": true
-    },
-    {
       "name": "git-workflow",
       "marketplace": "inflab",
       "enabled": true

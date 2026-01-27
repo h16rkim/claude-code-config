@@ -12,21 +12,19 @@ claude-code-config/
 │           ├── SKILL.md
 │           └── init.sh
 │
-├── config/                 # 핵심 설정 파일
-│   ├── settings.json       # Claude Code 메인 설정
-│   └── CLAUDE.md           # 전역 사용자 지침
+├── config/                      # 설정 파일 및 디렉토리 (symlink 대상)
+│   ├── settings.json            # Claude Code 메인 설정
+│   ├── CLAUDE.md                # 전역 사용자 지침
+│   ├── commands/                # 슬래시 명령어
+│   │   ├── claude-code-pull.md    # /claude-code-pull - 설정 동기화
+│   │   ├── claude-code-commit.md  # /claude-code-commit - 설정 백업
+│   │   └── ...                    # 기타 명령어
+│   └── skills/                  # 사용자 정의 스킬
 │
-├── commands/               # 슬래시 명령어
-│   ├── claude-code-pull.md   # /claude-code-pull - 설정 동기화
-│   ├── claude-code-commit.md # /claude-code-commit - 설정 백업
-│   └── ...                   # 기타 명령어
-│
-├── skills/                 # 사용자 정의 스킬
-│
-└── registry/               # 확장 목록
-    ├── mcp-servers.json    # MCP 서버 목록
-    ├── marketplaces.json   # Marketplace 목록
-    └── plugins.json        # Plugin 목록
+└── registry/                    # 확장 목록
+    ├── mcp-servers.json         # MCP 서버 목록
+    ├── marketplaces.json        # Marketplace 목록
+    └── plugins.json             # Plugin 목록
 ```
 
 ## 사용법

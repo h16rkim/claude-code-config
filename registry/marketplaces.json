@@ -14,11 +14,6 @@
       "name": "cc-lsp",
       "source": "git",
       "url": "https://github.com/h16rkim/cc-lsp.git"
-    },
-    {
-      "name": "claude-hud",
-      "source": "github",
-      "repo": "jarrodwatts/claude-hud"
     }
   ]
 }
