@@ -64,10 +64,10 @@
     "command": "~/.claude/custom/scripts/statusline.sh"
   },
   "enabledPlugins": {
-    "jdtls@cc-lsp": true,
-    "typescript-language-server@cc-lsp": true,
     "git-workflow@inflab": true,
-    "kotlin-lsp@cc-lsp": true
+    "kotlin-lsp@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true,
+    "jdtls-lsp@claude-plugins-official": true
   },
   "alwaysThinkingEnabled": true,
   "disableBypassPermissionsMode": true

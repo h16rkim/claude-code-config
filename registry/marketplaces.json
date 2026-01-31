@@ -9,11 +9,6 @@
       "name": "inflab",
       "source": "github",
       "repo": "inflearn/claude-plugins"
-    },
-    {
-      "name": "cc-lsp",
-      "source": "git",
-      "url": "https://github.com/h16rkim/cc-lsp.git"
     }
   ]
 }

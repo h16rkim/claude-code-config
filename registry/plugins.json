@@ -6,18 +6,18 @@
       "enabled": true
     },
     {
-      "name": "jdtls",
-      "marketplace": "cc-lsp",
-      "enabled": true
-    },
-    {
       "name": "kotlin-lsp",
-      "marketplace": "cc-lsp",
+      "marketplace": "claude-plugins-official",
       "enabled": true
     },
     {
-      "name": "typescript-language-server",
-      "marketplace": "cc-lsp",
+      "name": "typescript-lsp",
+      "marketplace": "claude-plugins-official",
+      "enabled": true
+    },
+    {
+      "name": "jdtls-lsp",
+      "marketplace": "claude-plugins-official",
       "enabled": true
     }
   ]
