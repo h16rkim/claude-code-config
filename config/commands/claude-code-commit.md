@@ -46,6 +46,13 @@ allowed-tools: Bash, Read, Write, Edit
 
    `~/.claude/CLAUDE.md` 파일을 `$CONFIG_DIR/CLAUDE.md`에 복사합니다.
 
+3. **keybindings.json 백업**
+
+   `~/.claude/keybindings.json` 파일을 읽습니다.
+   - 심볼릭 링크인 경우: 실제 파일 내용을 읽습니다
+
+   내용을 `$CONFIG_DIR/keybindings.json`에 저장합니다.
+
 ### Step 3: Commands 백업
 
 `~/.claude/commands/` 디렉토리의 내용을 `$PROJECT_DIR/commands/`에 동기화합니다.

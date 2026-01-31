@@ -58,6 +58,11 @@ cd "$PROJECT_DIR" && git pull
      cp "$HOME/.claude/CLAUDE.md" "$BACKUP_DIR/"
    fi
 
+   # keybindings.json 백업 (심볼릭 링크가 아닌 경우)
+   if [ -f "$HOME/.claude/keybindings.json" ] && [ ! -L "$HOME/.claude/keybindings.json" ]; then
+     cp "$HOME/.claude/keybindings.json" "$BACKUP_DIR/"
+   fi
+
    # commands 디렉토리 백업 (심볼릭 링크가 아닌 경우)
    if [ -d "$HOME/.claude/commands" ] && [ ! -L "$HOME/.claude/commands" ]; then
      cp -r "$HOME/.claude/commands" "$BACKUP_DIR/"
@@ -81,12 +86,14 @@ cd "$PROJECT_DIR" && git pull
    rm -f "$HOME/.claude/CLAUDE.md"
    ln -s "$CONFIG_DIR/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 
-   # commands/ (이미 심볼릭 링크로 연결되어 있음 - 확인만)
+   # keybindings.json
+   rm -f "$HOME/.claude/keybindings.json"
+   ln -s "$CONFIG_DIR/keybindings.json" "$HOME/.claude/keybindings.json"
 
    # skills/
    rm -rf "$HOME/.claude/skills"
    ln -s "$CONFIG_DIR/skills" "$HOME/.claude/skills"
-   
+
    # commands/
    rm -rf "$HOME/.claude/commands"
    ln -s "$CONFIG_DIR/commands" "$HOME/.claude/commands"

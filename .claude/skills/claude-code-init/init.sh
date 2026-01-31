@@ -39,6 +39,12 @@ if [ -f "$CLAUDE_BASE_DIR/CLAUDE.md" ] && [ ! -L "$CLAUDE_BASE_DIR/CLAUDE.md" ];
     echo "  - CLAUDE.md -> config/CLAUDE.md"
 fi
 
+# keybindings.json 백업
+if [ -f "$CLAUDE_BASE_DIR/keybindings.json" ] && [ ! -L "$CLAUDE_BASE_DIR/keybindings.json" ]; then
+    cp "$CLAUDE_BASE_DIR/keybindings.json" "$CONFIG_DIR/"
+    echo "  - keybindings.json -> config/keybindings.json"
+fi
+
 # commands 디렉토리 내 파일들 백업 (symlink가 아닌 파일만)
 if [ -d "$CLAUDE_BASE_DIR/commands" ] && [ ! -L "$CLAUDE_BASE_DIR/commands" ]; then
     mkdir -p "$CONFIG_COMMANDS_DIR"
@@ -72,6 +78,11 @@ echo "  - settings.json -> $CONFIG_DIR/settings.json"
 rm -f "$CLAUDE_BASE_DIR/CLAUDE.md"
 ln -s "$CONFIG_DIR/CLAUDE.md" "$CLAUDE_BASE_DIR/CLAUDE.md"
 echo "  - CLAUDE.md -> $CONFIG_DIR/CLAUDE.md"
+
+# keybindings.json
+rm -f "$CLAUDE_BASE_DIR/keybindings.json"
+ln -s "$CONFIG_DIR/keybindings.json" "$CLAUDE_BASE_DIR/keybindings.json"
+echo "  - keybindings.json -> $CONFIG_DIR/keybindings.json"
 
 # commands/
 rm -rf "$CLAUDE_BASE_DIR/commands"
@@ -182,6 +193,7 @@ echo "=== 설정 요약 ==="
 echo "심볼릭 링크:"
 echo "  - $CLAUDE_BASE_DIR/settings.json -> $CONFIG_DIR/settings.json"
 echo "  - $CLAUDE_BASE_DIR/CLAUDE.md -> $CONFIG_DIR/CLAUDE.md"
+echo "  - $CLAUDE_BASE_DIR/keybindings.json -> $CONFIG_DIR/keybindings.json"
 echo "  - $CLAUDE_BASE_DIR/commands -> $CONFIG_COMMANDS_DIR"
 echo "  - $CLAUDE_BASE_DIR/skills -> $CONFIG_SKILLS_DIR"
 echo ""
