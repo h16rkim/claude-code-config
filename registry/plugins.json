@@ -6,9 +6,9 @@
       "enabled": true
     },
     {
-      "name": "kotlin-lsp",
-      "marketplace": "claude-plugins-official",
-      "enabled": false
+      "name": "agent-rules",
+      "marketplace": "inflab",
+      "enabled": true
     },
     {
       "name": "typescript-lsp",
@@ -22,7 +22,7 @@
     },
     {
       "name": "kotlin-lsp",
-      "marketplace": "cc-lsp",
+      "marketplace": "claude-plugins-official",
       "enabled": true
     }
   ]

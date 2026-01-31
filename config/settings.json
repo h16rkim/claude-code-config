@@ -52,10 +52,10 @@
   },
   "enabledPlugins": {
     "git-workflow@inflab": true,
-    "kotlin-lsp@claude-plugins-official": false,
     "typescript-lsp@claude-plugins-official": true,
     "jdtls-lsp@claude-plugins-official": true,
-    "kotlin-lsp@cc-lsp": true
+    "kotlin-lsp@claude-plugins-official": true,
+    "agent-rules@inflab": true
   },
   "language": "한국어",
   "alwaysThinkingEnabled": true,
