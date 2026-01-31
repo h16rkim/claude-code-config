@@ -8,7 +8,7 @@
     {
       "name": "kotlin-lsp",
       "marketplace": "claude-plugins-official",
-      "enabled": true
+      "enabled": false
     },
     {
       "name": "typescript-lsp",
@@ -18,6 +18,11 @@
     {
       "name": "jdtls-lsp",
       "marketplace": "claude-plugins-official",
+      "enabled": true
+    },
+    {
+      "name": "kotlin-lsp",
+      "marketplace": "cc-lsp",
       "enabled": true
     }
   ]
