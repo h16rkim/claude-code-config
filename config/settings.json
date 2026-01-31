@@ -18,20 +18,7 @@
       "Read(**/build/)",
       "Read(**/bin/)",
       "Read(**/dist/)",
-      "Read(**/.env)",
-      "Read(**/*/application.yml)",
-      "Bash(cat **/*/application.yml)",
-      "Bash(less **/*/application.yml)",
-      "Bash(more **/*/application.yml)",
-      "Bash(head **/*/application.yml)",
-      "Bash(tail **/*/application.yml)",
-      "Read(**/*/env.*.yml)",
-      "Bash(cat **/*/env.*.yml)",
-      "Bash(less **/*/env.*.yml)",
-      "Bash(more **/*/env.*.yml)",
-      "Bash(head **/*/env.*.yml)",
-      "Bash(tail **/*/env.*.yml)",
-      "Bash(git push:*)"
+      "Read(**/.env)"
     ]
   },
   "hooks": {
