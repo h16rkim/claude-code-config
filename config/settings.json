@@ -7,7 +7,6 @@
     "HTTPS_PROXY": "http://127.0.0.1:3128"
   },
   "includeCoAuthoredBy": false,
-  "language": "한국어",
   "permissions": {
     "allow": [
       "Bash(find:*)",
@@ -57,6 +56,7 @@
     "typescript-lsp@claude-plugins-official": true,
     "jdtls-lsp@claude-plugins-official": true
   },
+  "language": "한국어",
   "alwaysThinkingEnabled": true,
   "disableBypassPermissionsMode": true
 }

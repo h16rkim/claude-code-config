@@ -138,6 +138,7 @@ MCP 서버 설정을 저장합니다. `~/.claude.json`의 `mcpServers` 섹션에
    - `~/.claude/settings.json` → `config/settings.json`
    - `~/.claude/commands` → `config/commands/`
    - `~/.claude/skills` → `config/skills/`
+   - `~/.claude/rules` → `config/rules/`
 
 ### Step 2: MCP 서버 설정 읽기
 1. `~/.claude.json` 파일을 Read 도구로 읽습니다.

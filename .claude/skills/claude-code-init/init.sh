@@ -12,6 +12,7 @@ CLAUDE_BASE_DIR="$HOME/.claude"
 CONFIG_DIR="$SCRIPT_DIR/config"
 CONFIG_COMMANDS_DIR="$CONFIG_DIR/commands"
 CONFIG_SKILLS_DIR="$CONFIG_DIR/skills"
+CONFIG_RULES_DIR="$CONFIG_DIR/rules"
 
 echo "=== Claude Code Config 초기 설정 ==="
 echo ""
@@ -65,6 +66,16 @@ if [ -d "$CLAUDE_BASE_DIR/skills" ] && [ ! -L "$CLAUDE_BASE_DIR/skills" ]; then
     done
 fi
 
+# rules 디렉토리 내 파일들 백업 (symlink가 아닌 파일만)
+if [ -d "$CLAUDE_BASE_DIR/rules" ] && [ ! -L "$CLAUDE_BASE_DIR/rules" ]; then
+    mkdir -p "$CONFIG_RULES_DIR"
+    find "$CLAUDE_BASE_DIR/rules" -maxdepth 1 -type f ! -name ".*" | while read -r file; do
+        filename=$(basename "$file")
+        cp "$file" "$CONFIG_RULES_DIR/"
+        echo "  - rules/$filename -> config/rules/$filename"
+    done
+fi
+
 # 3. 심볼릭 링크 생성
 echo ""
 echo "[3/7] 심볼릭 링크 생성..."
@@ -93,6 +104,11 @@ echo "  - commands/ -> $CONFIG_COMMANDS_DIR"
 rm -rf "$CLAUDE_BASE_DIR/skills"
 ln -s "$CONFIG_SKILLS_DIR" "$CLAUDE_BASE_DIR/skills"
 echo "  - skills/ -> $CONFIG_SKILLS_DIR"
+
+# rules/
+rm -rf "$CLAUDE_BASE_DIR/rules"
+ln -s "$CONFIG_RULES_DIR" "$CLAUDE_BASE_DIR/rules"
+echo "  - rules/ -> $CONFIG_RULES_DIR"
 
 # 4. MCP 서버 설치
 echo ""
@@ -196,6 +212,7 @@ echo "  - $CLAUDE_BASE_DIR/CLAUDE.md -> $CONFIG_DIR/CLAUDE.md"
 echo "  - $CLAUDE_BASE_DIR/keybindings.json -> $CONFIG_DIR/keybindings.json"
 echo "  - $CLAUDE_BASE_DIR/commands -> $CONFIG_COMMANDS_DIR"
 echo "  - $CLAUDE_BASE_DIR/skills -> $CONFIG_SKILLS_DIR"
+echo "  - $CLAUDE_BASE_DIR/rules -> $CONFIG_RULES_DIR"
 echo ""
 echo "⚠️  Claude Code를 재시작하여 설정을 적용해주세요."
 echo ""

@@ -4,6 +4,29 @@
 
 ---
 
+## 2026-01-31
+
+### 작업 내용
+- `claude-code-reset` 스킬 신규 생성
+- 모든 동기화 명령어에 `rules/` 디렉토리 지원 추가
+
+### 변경된 파일
+- `.claude/skills/claude-code-reset/SKILL.md`: 신규 생성
+  - 기존 설정 완전 삭제 후 Registry 기준 재설치 기능
+  - git pull로 Repository 최신 상태 동기화
+- `.claude/skills/claude-code-reset/reset.sh`: 신규 생성
+  - Phase 0: Git Pull
+  - Phase 1: Plugin/Marketplace/MCP 삭제
+  - Phase 2: Symlink 생성
+  - Phase 3: Registry 기반 재설치
+- `.claude/skills/claude-code-init/init.sh`: `rules/` 디렉토리 백업 및 symlink 추가
+- `.claude/skills/claude-code-init/SKILL.md`: `rules/` 예시 추가
+- `config/commands/claude-code-commit.md`: `rules/` 백업 섹션 추가
+- `config/commands/claude-code-pull.md`: `rules/` 백업 및 symlink 추가
+- `README.md`: claude-code-reset 및 rules/ 디렉토리 설명 추가
+
+---
+
 ## 2026-01-27
 
 ### 작업 내용

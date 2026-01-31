@@ -72,6 +72,11 @@ cd "$PROJECT_DIR" && git pull
    if [ -d "$HOME/.claude/skills" ] && [ ! -L "$HOME/.claude/skills" ]; then
      cp -r "$HOME/.claude/skills" "$BACKUP_DIR/"
    fi
+
+   # rules 디렉토리 백업 (심볼릭 링크가 아닌 경우)
+   if [ -d "$HOME/.claude/rules" ] && [ ! -L "$HOME/.claude/rules" ]; then
+     cp -r "$HOME/.claude/rules" "$BACKUP_DIR/"
+   fi
    ```
 
 ### Step 4: 설정 파일 동기화
@@ -97,6 +102,10 @@ cd "$PROJECT_DIR" && git pull
    # commands/
    rm -rf "$HOME/.claude/commands"
    ln -s "$CONFIG_DIR/commands" "$HOME/.claude/commands"
+
+   # rules/
+   rm -rf "$HOME/.claude/rules"
+   ln -s "$CONFIG_DIR/rules" "$HOME/.claude/rules"
 
    ```
 
